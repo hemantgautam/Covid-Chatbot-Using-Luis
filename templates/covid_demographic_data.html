@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Covid World Data</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+    #map{
+      height:481px;
+      width:100%;
+    }
+    #sticky-footer {height: :20px;  position: fixed;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    background-color: red;
+                    color: white;
+                    text-align: center;}
+  </style>
+</head>
+<body>
+  <br>
+  <h1 style="text-align:center;">Covid World Data</h1>
+  <br>
+  <div id="map"></div>
+  <script>
+    function initMap(){
+      var options = {
+        zoom:2.6,
+        center:{lat:41.87194,lng:12.56738}
+      }
+      var map = new google.maps.Map(document.getElementById('map'), options);
+      var markers = [
+        {% for each_country_data in covid_world_data %}
+            {% if each_country_data["latitude"] != None %}
+            {
+              coords:{
+                lat:{{ each_country_data["latitude"] }},
+                lng: {{ each_country_data["longitude"] }}
+                },
+              content:'<div><h4 style="text-align:center;">{{each_country_data["country"]}}</h4><b>Confirmed: </b>{{each_country_data["confirmed"]}}<br><b>Recovered: </b>{{each_country_data["recovered"]}}<br><b>Total Deaths : </b>{{each_country_data["deaths"]}}<br><b>Critical: </b>{{each_country_data["critical"]}}</div>'
+            },
+            {% endif %}
+        {% endfor %}
+      ];
+
+      for(var i = 0;i < markers.length;i++){
+        console.log(markers[i])
+        addMarker(markers[i]);
+      }
+
+      function addMarker(props){
+        var marker = new google.maps.Marker({
+          position:props.coords,
+          map:map,
+        });
+
+        if(props.iconImage){
+          marker.setIcon(props.iconImage);
+        }
+
+        if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+          // marker.addListener('mouseout', function(){
+          //   infoWindow.close();
+          // });          
+        }
+      }
+    }
+  </script>
+  <footer id="sticky-footer" class="py-4 bg-dark text-white-50">
+    <div class="container text-center">
+      <small style="color:white;">Copyright &copy; created by hemantgautam50@gmail.com</small>
+    </div>
+  </footer>  
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDfLl11wKqnesEuANogfvTYuEohnhmPVnY&callback=initMap">
+    </script>    
+</body>
+</html>
