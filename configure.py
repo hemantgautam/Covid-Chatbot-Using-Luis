@@ -8,6 +8,6 @@ class DefaultConfig:
     configuration = config_reader.read_config()
     MicrosoftAppId = configuration['MicrosoftAppId']
     MicrosoftAppPassword = configuration['MicrosoftAppPassword']
-    APP_ID = os.environ.get("MicrosoftAppId", MicrosoftAppId)
-    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", MicrosoftAppPassword)
+    APP_ID = os.environ.get("MicrosoftAppId", "")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     CONNECTION_NAME = os.environ.get("ConnectionName", "")

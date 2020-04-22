@@ -1,4 +1,4 @@
-from config_reader import ConfigReader
+from config import config_reader
 import requests
 import pandas as pd
 
