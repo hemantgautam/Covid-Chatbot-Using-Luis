@@ -32,7 +32,7 @@ djangorestframework==3.10.3
 dnspython==1.16.0
 emoji==0.5.4
 Flask==1.1.1
-Flask-Cors==3.0.8
+Flask-Cors==3.0.9
 Flask-MonitoringDashboard==3.0.6
 Flask-PyMongo==2.3.0
 Flask-Session==0.3.1
